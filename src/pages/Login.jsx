@@ -16,12 +16,11 @@ class Login extends Component {
 
   handleChange = ({ target: { value } }) => {
     const TRES = 3;
+    this.setState({ user: value });
     if (value.length >= TRES) {
       this.setState({ btnDisabled: false });
-      this.setState({ user: value });
     } else {
       this.setState({ btnDisabled: true });
-      this.setState({ user: '' });
     }
   }
 
