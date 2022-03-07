@@ -37,7 +37,7 @@ class Login extends Component {
     const { btnDisabled, loading } = this.state;
     return (
       <div className="login" data-testid="page-login">
-        {loading
+        { loading
           ? <Loading />
           : (
             <div>
@@ -57,9 +57,7 @@ class Login extends Component {
                 Entrar
               </button>
             </div>
-
           )}
-
       </div>
     );
   }
