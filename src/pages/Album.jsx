@@ -49,6 +49,7 @@ class Album extends Component {
                 URL={ track.previewUrl }
                 id={ track.trackId }
                 obj={ track }
+                checked={ this.handleCheck }
               />
             ))
             : <Loading /> }
