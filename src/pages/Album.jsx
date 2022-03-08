@@ -41,7 +41,7 @@ class Album extends Component {
               </>
             )
             : <Loading />}
-          { tracks.length > 0
+          {/* { tracks.length > 0
             ? tracks.filter((_track, index) => index > 0).map((track) => (
               <MusicCard
                 key={ track.trackId }
@@ -49,10 +49,10 @@ class Album extends Component {
                 URL={ track.previewUrl }
                 id={ track.trackId }
                 obj={ track }
-                checked={ this.handleCheck }
               />
             ))
-            : <Loading /> }
+            : <Loading /> } */}
+          <MusicCard tracks={ tracks } />
         </h3>
       </div>
     );
