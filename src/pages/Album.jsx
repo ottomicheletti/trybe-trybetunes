@@ -41,17 +41,6 @@ class Album extends Component {
               </>
             )
             : <Loading />}
-          {/* { tracks.length > 0
-            ? tracks.filter((_track, index) => index > 0).map((track) => (
-              <MusicCard
-                key={ track.trackId }
-                track={ track.trackName }
-                URL={ track.previewUrl }
-                id={ track.trackId }
-                obj={ track }
-              />
-            ))
-            : <Loading /> } */}
           <MusicCard tracks={ tracks } />
         </h3>
       </div>

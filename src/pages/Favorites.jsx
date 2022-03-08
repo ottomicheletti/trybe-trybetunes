@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Header from './components/Header';
-import Loading from './components/Loading';
 import MusicCard from './components/MusicCard';
 
 class Favorites extends Component {
@@ -9,7 +8,7 @@ class Favorites extends Component {
     super(props);
 
     this.state = {
-      songs: [],
+      tracks: [],
     };
   }
 
@@ -17,30 +16,23 @@ class Favorites extends Component {
     this.fetchFavoriteSongs();
   }
 
+  componentDidUpdate() {
+    this.fetchFavoriteSongs();
+  }
+
   fetchFavoriteSongs = async () => {
     const favorites = await getFavoriteSongs();
-    this.setState({ songs: favorites });
-    // console.log(this.state.songs);
+    this.setState({ tracks: favorites });
   }
 
   render() {
-    const { songs } = this.state;
+    const { tracks } = this.state;
     return (
       <div className="favorites" data-testid="page-favorites">
         PÁGINA DE FAVORITOS
         <Header />
         <div>
-          { songs.length > 0
-            ? songs.map((track) => (
-              <MusicCard
-                key={ track.trackId }
-                track={ track.trackName }
-                URL={ track.previewUrl }
-                id={ track.trackId }
-                obj={ track }
-              />
-            ))
-            : <Loading /> }
+          <MusicCard tracks={ tracks } />
         </div>
       </div>
     );

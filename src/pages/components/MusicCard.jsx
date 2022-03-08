@@ -51,7 +51,7 @@ class MusicCard extends Component {
         {loading
           ? <Loading />
           : (
-            tracks.filter((_track, index) => index > 0).map((track) => (
+            tracks.filter((track) => track.trackName).map((track) => (
               <div key={ track.trackId }>
                 <p>{track.trackName}</p>
                 <audio
