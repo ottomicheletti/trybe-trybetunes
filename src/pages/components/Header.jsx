@@ -13,10 +13,10 @@ class Header extends Component {
     };
   }
 
-  async componentDidMount() {
-    const user = await getUser();
-    this.setState({ username: user.name });
-    this.setState({ loading: false });
+  componentDidMount() {
+    getUser().then((res) => {
+      this.setState({ loading: false, username: res.name });
+    });
   }
 
   render() {
@@ -34,7 +34,7 @@ class Header extends Component {
             data-testid="link-to-search"
             className="btn"
           >
-            Busca
+            Pesquisar
           </Link>
           <Link
             to="/favorites"

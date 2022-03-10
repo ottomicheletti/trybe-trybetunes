@@ -9,19 +9,15 @@ class Profile extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
       userData: {},
     };
   }
 
   componentDidMount() {
-    this.getUser();
-  }
-
-  getUser = async () => {
-    this.setState({ loading: true });
-    const user = await getUser();
-    this.setState({ userData: user, loading: false });
+    getUser().then((res) => {
+      this.setState({ loading: false, userData: res });
+    });
   }
 
   render() {

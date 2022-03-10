@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { getUser, updateUser } from '../services/userAPI';
 import Header from './components/Header';
 import Loading from './components/Loading';
@@ -18,27 +19,26 @@ class ProfileEdit extends Component {
         descriptionField: false,
         imageField: false,
       },
+      redirect: <Loading />,
     };
   }
 
   componentDidMount() {
-    this.getUser();
-  }
-
-  getUser = async () => {
     this.setState({ loading: true });
-    const user = await getUser();
-    this.setState({ userData: user, loading: false });
+    getUser().then((res) => {
+      this.setState({ loading: false, userData: res });
+    });
   }
 
-  areInputsValid = () => {
-    const { fieldsValidations:
+  areInputsValid = async () => {
+    const { userData, fieldsValidations:
       { nameField, emailField, descriptionField, imageField } } = this.state;
     if (nameField === true
       && emailField === true
       && descriptionField === true
       && imageField === true) {
       this.setState({ isBtnDisabled: false });
+      await updateUser(userData);
     } else {
       this.setState({ isBtnDisabled: true });
     }
@@ -65,12 +65,8 @@ class ProfileEdit extends Component {
     }
   }
 
-  updateUserInfo = async () => {
-    this.setState({ loading: true });
-    const { userData } = this.state;
-    await updateUser(userData);
-    const { history } = this.props;
-    history.push('/profile');
+  redirectUser = () => {
+    this.setState({ loading: true, redirect: <Redirect to="/profile" /> });
   }
 
   render() {
@@ -79,13 +75,13 @@ class ProfileEdit extends Component {
         name,
         email,
         description,
-        image }, loading, isBtnDisabled } = this.state;
+        image }, loading, isBtnDisabled, redirect } = this.state;
     return (
       <div className="edit" data-testid="page-profile-edit">
         PÁGINA DE EDIÇÃO DO PERFIL
         <Header />
         {loading
-          ? <Loading />
+          ? redirect
           : (
             <div className="user">
               <div className="user-img">
@@ -136,8 +132,8 @@ class ProfileEdit extends Component {
               </label>
               <button
                 disabled={ isBtnDisabled }
-                onClick={ this.updateUserInfo }
-                type="button"
+                onClick={ this.redirectUser }
+                type="submit"
                 data-testid="edit-button-save"
               >
                 Salvar
@@ -148,8 +144,8 @@ class ProfileEdit extends Component {
   }
 }
 
-ProfileEdit.propTypes = {
-  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
-};
+// ProfileEdit.propTypes = {
+//   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
+// };
 
 export default ProfileEdit;
