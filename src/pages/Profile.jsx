@@ -9,15 +9,15 @@ class Profile extends Component {
     super(props);
 
     this.state = {
-      loading: true,
+      loading: false,
       userData: {},
     };
   }
 
-  componentDidMount() {
-    getUser().then((res) => {
-      this.setState({ loading: false, userData: res });
-    });
+  async componentDidMount() {
+    this.setState({ loading: true });
+    const user = await getUser();
+    this.setState({ loading: false, userData: user });
   }
 
   render() {
@@ -26,6 +26,9 @@ class Profile extends Component {
       <div className="profile" data-testid="page-profile">
         PÁGINA DO PERFIL
         <Header />
+        <div>
+          <Link to="/profile/edit">Editar perfil</Link>
+        </div>
         {loading
           ? <Loading />
           : (
@@ -36,7 +39,6 @@ class Profile extends Component {
                   alt={ userData.name }
                   data-testid="profile-image"
                 />
-                <Link to="/profile/edit">Editar perfil</Link>
               </div>
               <h3>Nome</h3>
               <p>{userData.name}</p>
