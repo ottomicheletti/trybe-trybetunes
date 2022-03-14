@@ -43,7 +43,7 @@ class ProfileEdit extends Component {
       () => this.areInputsValid());
   }
 
-  redirectUser = () => {
+  redirectUser = async () => {
     const { name, email, description, image } = this.state;
     const { history } = this.props;
     updateUser({
@@ -51,7 +51,8 @@ class ProfileEdit extends Component {
       email,
       description,
       image,
-    }).then(history.push('/profile'));
+    });
+    history.push('/profile');
   }
 
   fetchUser = async () => {
