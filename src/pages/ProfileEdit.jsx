@@ -19,8 +19,8 @@ class ProfileEdit extends Component {
   }
 
   componentDidMount() {
-    const { isBtnDisabled } = this.state;
-    if (isBtnDisabled) {
+    const { loading } = this.state;
+    if (loading) {
       this.fetchUser();
     }
   }
