@@ -14,15 +14,16 @@ class Header extends Component {
   }
 
   componentDidMount() {
-    const { loading } = this.state;
-    if (loading) {
-      this.fetchUser();
-    }
+    this.fetchUser();
   }
 
   fetchUser = async () => {
-    const { name } = await getUser();
-    this.setState({ loading: false, username: name });
+    const { loading } = this.state;
+    if (loading) {
+      const { name } = await getUser();
+      this.setState({ username: name });
+    }
+    this.setState({ loading: false });
   }
 
   render() {

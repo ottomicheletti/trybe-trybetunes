@@ -19,10 +19,7 @@ class ProfileEdit extends Component {
   }
 
   componentDidMount() {
-    const { loading } = this.state;
-    if (loading) {
-      this.fetchUser();
-    }
+    this.fetchUser();
   }
 
   areInputsValid = async () => {
@@ -43,7 +40,7 @@ class ProfileEdit extends Component {
       () => this.areInputsValid());
   }
 
-  redirectUser = async () => {
+  redirectUser = () => {
     const { name, email, description, image } = this.state;
     const { history } = this.props;
     updateUser({
@@ -51,13 +48,20 @@ class ProfileEdit extends Component {
       email,
       description,
       image,
+    }).then((res) => {
+      if (res === 'OK') {
+        history.push('/profile');
+      }
     });
-    history.push('/profile');
   }
 
   fetchUser = async () => {
-    const { name, email, description, image } = await getUser();
-    this.setState({ loading: false, name, email, description, image });
+    const { loading } = this.state;
+    if (loading) {
+      const { name, email, description, image } = await getUser();
+      this.setState({ name, email, description, image });
+    }
+    this.setState({ loading: false });
   }
 
   render() {

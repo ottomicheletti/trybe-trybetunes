@@ -18,15 +18,16 @@ class Profile extends Component {
   }
 
   async componentDidMount() {
-    const { loading } = this.state;
-    if (loading) {
-      this.fetchUser();
-    }
+    this.fetchUser();
   }
 
   fetchUser = async () => {
-    const { name, email, description, image } = await getUser();
-    this.setState({ loading: false, name, email, description, image });
+    const { loading } = this.state;
+    if (loading) {
+      const { name, email, description, image } = await getUser();
+      this.setState({ name, email, description, image });
+    }
+    this.setState({ loading: false });
   }
 
   render() {

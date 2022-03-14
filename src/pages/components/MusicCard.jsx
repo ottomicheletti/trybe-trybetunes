@@ -80,26 +80,6 @@ class MusicCard extends Component {
                 </label>
               </div>
             ))
-
-        // <div>
-        //   <h2>{track}</h2>
-        //   <audio data-testid="audio-component" src={ URL } controls>
-        //     <track kind="captions" />
-        //     O seu navegador não suporta o elemento
-        //     {' '}
-        //     <code>audio</code>
-        //     .
-        //   </audio>
-        //   <label htmlFor="add-song">
-        //     <input
-        //       type="checkbox"
-        //       name="add-song"
-        //       onChange={ (event) => this.checked(event, obj) }
-        //       data-testid={ `checkbox-music-${id}` }
-        //     />
-        //     Favorita
-        //   </label>
-        // </div>
           )}
       </div>
     );
