@@ -9,7 +9,7 @@ class ProfileEdit extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
       name: '',
       email: '',
       description: '',
@@ -18,10 +18,11 @@ class ProfileEdit extends Component {
     };
   }
 
-  async componentDidMount() {
-    this.setState({ loading: true });
-    const { name, email, description, image } = await getUser();
-    this.setState({ loading: false, name, email, description, image });
+  componentDidMount() {
+    const { isBtnDisabled } = this.state;
+    if (isBtnDisabled) {
+      this.fetchUser();
+    }
   }
 
   areInputsValid = async () => {
@@ -42,16 +43,20 @@ class ProfileEdit extends Component {
       () => this.areInputsValid());
   }
 
-  redirectUser = async () => {
+  redirectUser = () => {
     const { name, email, description, image } = this.state;
     const { history } = this.props;
-    await updateUser({
+    updateUser({
       name,
       email,
       description,
       image,
-    });
-    history.push('/profile');
+    }).then(history.push('/profile'));
+  }
+
+  async fetchUser() {
+    const { name, email, description, image } = await getUser();
+    this.setState({ loading: false, name, email, description, image });
   }
 
   render() {

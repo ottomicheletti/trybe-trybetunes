@@ -9,13 +9,16 @@ class Profile extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
       userData: {},
     };
   }
 
   async componentDidMount() {
-    this.setState({ loading: true });
+    this.fetchUser();
+  }
+
+  async fetchUser() {
     const user = await getUser();
     this.setState({ loading: false, userData: user });
   }
