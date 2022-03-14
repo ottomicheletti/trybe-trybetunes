@@ -27,7 +27,7 @@ class ProfileEdit extends Component {
 
   areInputsValid = async () => {
     const { name, email, description, image } = this.state;
-    const regexEmail = /[a-z]*@[a-z]*\.com/g;
+    const regexEmail = /[a-z0-9\w]+@[a-z]+\.[a-z]{2,3}/g;
     if (name !== ''
       && regexEmail.test(email)
       && description !== ''
