@@ -54,7 +54,7 @@ class ProfileEdit extends Component {
     }).then(history.push('/profile'));
   }
 
-  async fetchUser() {
+  fetchUser = async () => {
     const { name, email, description, image } = await getUser();
     this.setState({ loading: false, name, email, description, image });
   }

@@ -10,7 +10,10 @@ class Profile extends Component {
 
     this.state = {
       loading: true,
-      userData: {},
+      name: '',
+      email: '',
+      description: '',
+      image: '',
     };
   }
 
@@ -18,37 +21,41 @@ class Profile extends Component {
     this.fetchUser();
   }
 
-  async fetchUser() {
-    const user = await getUser();
-    this.setState({ loading: false, userData: user });
+  fetchUser = async () => {
+    const { name, email, description, image } = await getUser();
+    this.setState({ loading: false, name, email, description, image });
   }
 
   render() {
-    const { userData, loading } = this.state;
+    const {
+      name,
+      email,
+      description,
+      image,
+      loading,
+    } = this.state;
     return (
       <div className="profile" data-testid="page-profile">
         PÁGINA DO PERFIL
         <Header />
-        <div>
-          <Link to="/profile/edit">Editar perfil</Link>
-        </div>
+        <Link to="/profile/edit">Editar perfil</Link>
         {loading
           ? <Loading />
           : (
             <div className="user">
               <div className="user-img">
                 <img
-                  src={ userData.image }
-                  alt={ userData.name }
+                  src={ image }
+                  alt={ name }
                   data-testid="profile-image"
                 />
               </div>
               <h3>Nome</h3>
-              <p>{userData.name}</p>
+              <p>{name}</p>
               <h3>Email</h3>
-              <p>{userData.email}</p>
+              <p>{email}</p>
               <h3>Descrição</h3>
-              <p>{userData.description}</p>
+              <p>{description}</p>
             </div>)}
       </div>
     );
