@@ -40,19 +40,12 @@ class ProfileEdit extends Component {
       () => this.areInputsValid());
   }
 
-  redirectUser = () => {
+  redirectUser = async () => {
+    this.setState({ loading: true });
     const { name, email, description, image } = this.state;
+    await updateUser({ name, email, description, image });
     const { history } = this.props;
-    updateUser({
-      name,
-      email,
-      description,
-      image,
-    }).then((res) => {
-      if (res === 'OK') {
-        history.push('/profile');
-      }
-    });
+    history.push('/profile');
   }
 
   fetchUser = async () => {
@@ -60,6 +53,7 @@ class ProfileEdit extends Component {
     if (loading) {
       const { name, email, description, image } = await getUser();
       this.setState({ name, email, description, image });
+      this.areInputsValid();
     }
     this.setState({ loading: false });
   }
@@ -81,58 +75,60 @@ class ProfileEdit extends Component {
           ? <Loading />
           : (
             <div className="user">
-              <label htmlFor="name">
-                Nome
-                <input
-                  type="text"
-                  name="name"
-                  id="nameField"
-                  value={ name }
-                  onChange={ this.handleInputsChange }
-                  data-testid="edit-input-name"
-                />
-              </label>
-              <label htmlFor="email">
-                Email
-                <input
-                  type="text"
-                  name="email"
-                  id="emailField"
-                  value={ email }
-                  onChange={ this.handleInputsChange }
-                  data-testid="edit-input-email"
-                />
-              </label>
-              <label htmlFor="description">
-                Descrição
-                <input
-                  type="text"
-                  name="description"
-                  id="descriptionField"
-                  value={ description }
-                  onChange={ this.handleInputsChange }
-                  data-testid="edit-input-description"
-                />
-              </label>
-              <label htmlFor="image">
-                URL da imagem
-                <input
-                  type="text"
-                  name="image"
-                  id="imageField"
-                  value={ image }
-                  onChange={ this.handleInputsChange }
-                  data-testid="edit-input-image"
-                />
-              </label>
-              <button
-                disabled={ isBtnDisabled }
-                onClick={ this.redirectUser }
-                type="submit"
-                data-testid="edit-button-save"
-              >
-                Salvar
-              </button>
+              <form>
+                <label htmlFor="name">
+                  Nome
+                  <input
+                    type="text"
+                    name="name"
+                    id="nameField"
+                    value={ name }
+                    onChange={ this.handleInputsChange }
+                    data-testid="edit-input-name"
+                  />
+                </label>
+                <label htmlFor="email">
+                  Email
+                  <input
+                    type="text"
+                    name="email"
+                    id="emailField"
+                    value={ email }
+                    onChange={ this.handleInputsChange }
+                    data-testid="edit-input-email"
+                  />
+                </label>
+                <label htmlFor="description">
+                  Descrição
+                  <input
+                    type="text"
+                    name="description"
+                    id="descriptionField"
+                    value={ description }
+                    onChange={ this.handleInputsChange }
+                    data-testid="edit-input-description"
+                  />
+                </label>
+                <label htmlFor="image">
+                  URL da imagem
+                  <input
+                    type="text"
+                    name="image"
+                    id="imageField"
+                    value={ image }
+                    onChange={ this.handleInputsChange }
+                    data-testid="edit-input-image"
+                  />
+                </label>
+                <button
+                  disabled={ isBtnDisabled }
+                  onClick={ this.redirectUser }
+                  type="button"
+                  data-testid="edit-button-save"
+                >
+                  Salvar
+                </button>
+              </form>
             </div>)}
       </div>
     );
